@@ -21,3 +21,10 @@ RUN (curl -sL https://aka.ms/InstallAzureCLIDeb | bash) \
 	&& apt-get update \
 	&& apt-get install -y kubectl \
 	&& rm -rf /var/lib/apt/lists/*
+RUN curl -sL https://github.com/jpillora/chisel/releases/download/1.3.1/chisel_linux_amd64.gz | gunzip > /usr/local/bin/chisel \
+	&& chmod a+x /usr/local/bin/chisel
+
+COPY ./mb-entrypoint.sh /
+
+ENTRYPOINT ["tini", "--", "/mb-entrypoint.sh"]
+CMD ["convertigo"]
